@@ -1,0 +1,29 @@
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  username: <%= ENV.fetch("DB_UN") %>
+  password: <%= ENV.fetch("DB_PSW") %>
+
+development:
+  primary:
+    <<: *default
+    database: db/blog_app_development
+  secondary:
+    <<: *default
+    database: db/blog_app_development_secondary
+    replica: true
+
+test:
+  primary:
+    <<: *default
+    database: db/blog_app_test
+  secondary:
+    <<: *default
+    database: db/blog_app_test_secondary
+    replica: true
+
+production:
+  primary:
+    <<: *default
+    database: db/production
